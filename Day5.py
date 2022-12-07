@@ -57,4 +57,4 @@ for column in columns:
         p2_string += column[-1]
     else:
         p2_string += " "
-print("Part 1: "+p2_string)
+print("Part 2: "+p2_string)
