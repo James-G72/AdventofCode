@@ -20,16 +20,9 @@ for line in open("Day1_input.txt").read().split("\n"):
 
 print("The sum of all calibration values is: "+str(list_sum))
 
-
 # Part 2
 
-def check_words(place,full,flip=False):
-    """
-    Checks for a number spelt out in words. If found will return True and the number.
-    :param full: str, full line
-    :param flip: bool, tells the function whether or not to flip the word
-    :return: check (bool for if the check found a word), result (int of result)
-    """
+def check_with_dict(place, full, flip=False):
     word3, word4, word5 = "0", "0", "0"
     if not flip:
         if place+3 <= len(full):
@@ -45,35 +38,19 @@ def check_words(place,full,flip=False):
             word4 = full[len(full)-(place+1):len(full)-(place+1)+4]
         if place >= 4:
             word5 = full[len(full)-(place+1):len(full)-(place+1)+5]
-    if word3.isalpha():
-        if word3 == "one":
-            return True,1
-        elif word3 == "two":
-            return True,2
-        elif word3 == "six":
-            return True,6
-    if word4.isalpha():
-        if word4 == "four":
-            return True,4
-        if word4 == "five":
-            return True,5
-        if word4 == "nine":
-            return True,9
-    if word5.isalpha():
-        if word5 == "three":
-            return True,3
-        if word5 == "seven":
-            return True,7
-        if word5 == "eight":
-            return True,8
+    if word3 in WORDS:
+        return True, NUM_DICT[word3]
+    if word4 in WORDS:
+        return True, NUM_DICT[word4]
+    if word5 in WORDS:
+        return True, NUM_DICT[word5]
     return False, 0
 
-
 list_sum = 0
-words = ["one","two","three","four","five","six","seven","eight","nine"]
-STARTS = set([x[0] for x in words])
+WORDS = ["one","two","three","four","five","six","seven","eight","nine"]
+STARTS = set([x[0] for x in WORDS])
 digits = [1,2,3,4,5,6,7,8,9]
-NUM_DICT = dict(zip(digits,words))
+NUM_DICT = dict(zip(WORDS,digits))
 
 for line in open("Day1_input.txt").read().split("\n"):
     flip_line = line[::-1]
@@ -89,12 +66,12 @@ for line in open("Day1_input.txt").read().split("\n"):
             first = True
             value[0] = int(f)
         elif f in STARTS and not first:
-            first, value[0] = check_words(iter,line,False)
+            first, value[0] = check_with_dict(iter,line,False)
         if l.isdigit() and not last:
             last = True
             value[1] = int(l)
         elif l in STARTS and not last:
-            last, value[1] = check_words(iter,line,True)
+            last, value[1] = check_with_dict(iter,line,True)
         iter += 1
         print(value)
     list_sum += int(str(value[0])+str(value[1]))
