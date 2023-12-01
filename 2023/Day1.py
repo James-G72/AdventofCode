@@ -39,12 +39,12 @@ def check_words(place,full,flip=False):
         if place+5 <= len(full):
             word5 = full[place:place+5]
     else:
-        if place >= 3:
-            word3 = full[-place:-place+3]
-        if place >= 4:
-            word4 = full[-place:-place+4]
-        if place >= 5:
-            word5 = full[-place:-place+5]
+        if place >= 2:
+            word3 = full[len(full)-(place+1):len(full)-(place+1)+3]
+        if place >= 2:
+            word4 = full[len(full)-(place+1):len(full)-(place+1)+5]
+        if place >= 2:
+            word5 = full[len(full)-(place+1):len(full)-(place+1)+5]
     if word3.isalpha():
         if word3 == "one":
             return True,1
