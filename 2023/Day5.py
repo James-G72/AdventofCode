@@ -24,7 +24,35 @@ for seed in seed_ids:
         for mapping in map_dict[map_to_check]:
             if work_num >= mapping[1] and work_num < mapping[1]+mapping[2]:
                 work_num = mapping[0]+(work_num-mapping[1])
-                print(work_num)
+                break
+
+    locations.append(work_num)
+
+print("Lowest location is: "+str(min(locations)))
+
+# Part 2
+seeds = []
+paired = False
+first = 0
+for seed in seed_ids:
+    if not paired:
+        paired = True
+        first = seed
+    elif paired:
+        for addition in range(0,seed):
+            seeds.append(first+addition)
+        paired = False
+
+print(len(seeds))
+
+work_num = 0
+locations = []
+for seed in seeds:
+    work_num = seed
+    for map_to_check in maps:
+        for mapping in map_dict[map_to_check]:
+            if work_num >= mapping[1] and work_num < mapping[1]+mapping[2]:
+                work_num = mapping[0]+(work_num-mapping[1])
                 break
 
     locations.append(work_num)
