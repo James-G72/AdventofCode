@@ -1,3 +1,5 @@
+global maps
+
 maps = ["seed_to_soil","soil_to_fert","fert_to_water","water_to_light","light_to_temp","temp_to_humid","humid_to_loc"]
 map_dict = dict(zip(maps, [[],[],[],[],[],[],[]]))
 map = False
@@ -39,22 +41,39 @@ for seed in seed_ids:
         paired = True
         first = seed
     elif paired:
-        for addition in range(0,seed):
-            seeds.append(first+addition)
+        seeds.append([first, seed])
         paired = False
 
-print(len(seeds))
-
-work_num = 0
-locations = []
-for seed in seeds:
-    work_num = seed
-    for map_to_check in maps:
+def find_seed_for_location(loc, map_dict):
+    found = False
+    for map_to_check in reversed(list(map_dict.keys())):
         for mapping in map_dict[map_to_check]:
-            if work_num >= mapping[1] and work_num < mapping[1]+mapping[2]:
-                work_num = mapping[0]+(work_num-mapping[1])
+            if loc >= mapping[0] and loc < mapping[0]+mapping[2]:
+                loc = mapping[1]+(loc-mapping[0])
                 break
 
-    locations.append(work_num)
+    return loc
 
-print("Lowest location is: "+str(min(locations)))
+location_starts = []
+for loc in map_dict["humid_to_loc"]:
+    location_starts.append(loc[0])
+location_starts.sort()
+order = []
+
+for idx,map in enumerate(map_dict["humid_to_loc"]):
+    for loc in range(0, min(location_starts)):
+        seed_guess = find_seed_for_location(loc, map_dict)
+        for seed in seeds:
+            if seed_guess >= seed[0] and seed_guess < seed[0]+seed[1]:
+                print("Answer = "+str(loc))
+                exit()
+for start in location_starts:
+    for idx,map in enumerate(map_dict["humid_to_loc"]):
+        if map[0] == start:
+            range_locations = range(start, start+map_dict["humid_to_loc"][idx][2])
+            for loc in range_locations:
+                seed_guess = find_seed_for_location(loc, map_dict)
+                for seed in seeds:
+                    if seed_guess >= seed[0] and seed_guess < seed[0]+seed[1]:
+                        print("Answer = "+str(loc))
+                        exit()
