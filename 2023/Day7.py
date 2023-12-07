@@ -24,7 +24,7 @@ for idx, hand in enumerate(hands):
         other_card = [rank_dict[c] for idx, c in enumerate(hand) if rank_dict[c] != main_card][0]
         base = 1+main_card
         possitional = [idx for idx, c in enumerate(hand) if rank_dict[c] != main_card][0]
-        stren = 100000000 + (4-possitional)*13 + 13-other_card
+        stren = 100000000 + possitional*13 + other_card
         strength._set_value(stren, "".join(hand))
     # elif max(rank_count) == 3:
     #
