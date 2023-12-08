@@ -50,14 +50,20 @@ found = False
 pos = 0
 reset_track = 0
 options = "LR"
+keys = [x for x in start_keys]
+loop_length = [0]*len(start_keys)
 while not found:
     if pos > len(instructs)-1:
         reset_track += pos
         pos = 0
-    for idx, map in enumerate(start_keys):
-        start_keys[idx] = map_dict[map][options.index(instructs[pos])]
+    for idx, map in enumerate(keys):
+        keys[idx] = map_dict[map][options.index(instructs[pos])]
     pos += 1
-    found = all([map[-1] == "Z" for map in start_keys])
+    for idx, map in enumerate(keys):
+        if map == start_keys[idx] and loop_length[idx] == 0:
+            print("Map "+str(start_keys[idx])+" loops for: "+str(reset_track + pos))
+            loop_length[idx] = reset_track + pos
+    found = all([x != 0 for x in loop_length])
 reset_track += pos
 
 print("Part 2: "+str(reset_track))
