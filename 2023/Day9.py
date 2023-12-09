@@ -22,3 +22,12 @@ for sequence in sequences:
     sums += last_number
 
 print("Part 1: "+str(sums))
+
+# Part 2
+sums = 0
+for sequence in sequences:
+    ends = assess_difference(sequence[::-1])
+    last_number = sequence[0] + ends
+    sums += last_number
+
+print("Part 2: "+str(sums))
