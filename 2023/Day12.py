@@ -33,3 +33,13 @@ for line in open("Day12_input.txt").read().split("\n"):
     counter += count_possible(springs, summary.split(","))
 
 print("Part 1 total permutations: "+str(counter))
+
+# Part 2
+counter = 0
+for line in open("Day12_input.txt").read().split("\n"):
+    springs, summary = line.split(" ")
+    springs = springs+"?"+springs+"?"+springs+"?"+springs+"?"+springs
+    summary = summary+","+summary+","+summary+","+summary+","+summary
+    counter += count_possible(springs, summary.split(","))
+
+print("Part 2 total permutations: "+str(counter))
