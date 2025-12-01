@@ -1,4 +1,3 @@
-
 carry = 0
 for line in open("Day15_input.txt").read().split("\n"):
     for cmd in line.split(","):
